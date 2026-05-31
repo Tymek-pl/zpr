@@ -215,6 +215,4 @@ MIT License — free to use, modify and distribute.
 
 ## Links
 
-- [ZYXos Firmware](https://github.com/tymek/zyxos)
-- [ZYXos Documentation](https://github.com/tymek/zyxos/wiki)
-- [Report an issue](https://github.com/tymek/zpr/issues)
+- [ZYXos Firmware](https://github.com/Tymek-pl/ZYXos)
