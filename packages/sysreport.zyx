@@ -1,0 +1,23 @@
+# sysreport.zyx v1.0 by Tymek-pl
+# Pelny raport systemu
+echo ================================
+banner SYSREPORT
+echo ================================
+echo.
+echo --- INFO O SYSTEMIE ---
+fetch
+echo --- PAMIEC ---
+meminfo
+echo --- PROCESOR ---
+cpuinfo
+echo --- TEMPERATURA ---
+temp
+echo --- UPTIME ---
+uptime
+echo --- SIEC ---
+ifconfig
+echo --- PLIKI ---
+ls
+echo ================================
+echo Raport wygenerowany przez ZPR
+echo ================================

@@ -1,0 +1,17 @@
+# netcheck.zyx v1.0 by Tymek-pl
+# Sprawdz polaczenie WiFi i internet
+echo === Network Check ===
+echo.
+echo Status interfejsow:
+ifconfig
+echo.
+echo Sprawdzam DNS google.com...
+dns google.com
+echo.
+echo Ping google.com (4 pakiety)...
+ping google.com 4
+echo.
+echo Ping cloudflare 1.1.1.1...
+ping 1.1.1.1 4
+echo.
+echo === Koniec testu sieci ===

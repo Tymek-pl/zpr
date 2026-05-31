@@ -1,0 +1,14 @@
+# morse_demo.zyx v1.0 by Tymek-pl
+# Demo kodu Morse
+echo === Morse Demo ===
+echo.
+echo SOS:
+morse SOS
+echo.
+echo ZYXos:
+morse ZYXos
+echo.
+echo Twoje imie w Morse:
+morse TYMEK
+echo.
+echo === Koniec Morse Demo ===

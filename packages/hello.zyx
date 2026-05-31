@@ -1,0 +1,14 @@
+# hello.zyx v1.0 by Tymek-pl
+# Pierwszy program ZYXos
+banner ZYXos
+echo Witaj w ZYXos Package Repository!
+echo.
+echo Ten program zostal pobrany przez zpr install hello
+echo i uruchomiony przez: run hello
+echo.
+echo Wersja ZYXos:
+ver
+echo Uptime:
+uptime
+echo.
+echo Dziekujemy za korzystanie z ZPR!
