@@ -1,8 +1,0 @@
-banner ZYXos
-echo Welcome to ZYXos Package Repository!
-echo This program was downloaded with: zpr install hello
-echo and launched with: run hello
-echo ---
-uptime
-echo ---
-echo Thank you for using ZPR!

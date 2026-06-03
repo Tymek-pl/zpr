@@ -1,9 +1,0 @@
-banner NETCHECK
-echo === Network Check ===
-echo --- Interface status ---
-ifconfig
-echo --- Ping google.com ---
-ping google.com 4
-echo --- Ping cloudflare 1.1.1.1 ---
-ping 1.1.1.1 4
-echo === Network check done ===
