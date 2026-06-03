@@ -1,0 +1,13 @@
+banner SYSREPORT
+echo === ZYXos System Report ===
+echo --- CPU ---
+cpuinfo
+echo --- Memory ---
+meminfo
+echo --- Temperature ---
+temp
+echo --- Uptime ---
+uptime
+echo --- Network ---
+ifconfig
+echo === End of Report ===

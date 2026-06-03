@@ -1,0 +1,9 @@
+banner MORSE
+echo === Morse Code Demo ===
+echo SOS in Morse:
+morse SOS
+echo HELLO in Morse:
+morse HELLO
+echo ZYXos in Morse:
+morse ZYXOS
+echo === Morse demo done ===
