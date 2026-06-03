@@ -1,218 +1,116 @@
 # ZPR — ZYXos Package Repository
 
-> Official package repository for ZYXos — an embedded OS for ESP32-WROVER built from scratch.
+> The official package repository for [ZYXos](https://github.com/Tymek-pl/ZYXos) — an embedded OS for ESP32-WROVER.
 
 ---
 
 ## What is ZPR?
 
-ZPR (ZYXos Package Repository) is the official repository of packages for [ZYXos](https://github.com/tymek/zyxos). It works similarly to `apt` on Linux or `pkg` on BSD — you can browse, install, and remove programs directly from the ZYXos shell over WiFi, without ever reflashing your ESP32.
+ZPR is the package manager and repository for ZYXos. It works like `apt` on Linux — you connect to WiFi, run `zpr install <package>`, and the program is downloaded and ready to run instantly without reflashing the firmware.
 
-Packages are simple `.zyx` scripts — plain text files with ZYXos shell commands executed line by line. No compilation, no binary uploads. Just connect to WiFi, run `zpr update`, and start installing.
-
----
-
-## Requirements
-
-- ESP32-WROVER (or compatible) with ZYXos firmware flashed
-- WiFi connection (use `connect <ssid> <password>` in ZYXos shell)
-- ZYXos v1.0.0 or newer
+Packages are plain `.zyx` scripts — one ZYXos shell command per line. No compilation needed.
 
 ---
 
-## Quick Start
+## Usage
+
+On your ESP32 running ZYXos:
 
 ```
-# 1. Connect to WiFi
-connect MyNetwork MyPassword
-
-# 2. Update package list from ZPR
-zpr update
-
-# 3. Browse available packages
-zpr list
-
-# 4. Install a package
-zpr install snake
-
-# 5. Run it
-run snake
+root@zyxos:/$ connect MyNetwork MyPass
+root@zyxos:/$ zpr update
+root@zyxos:/$ zpr list
+root@zyxos:/$ zpr install hello
+root@zyxos:/$ run hello
+root@zyxos:/$ zpr remove hello
 ```
 
 ---
 
-## ZPR Commands
 
-| Command | Description |
-|---|---|
-| `zpr update` | Fetch latest package index from ZPR |
-| `zpr list` | Show all available packages |
-| `zpr install <name>` | Download and install a package |
-| `zpr remove <name>` | Remove an installed package |
-| `zpr info <name>` | Show details about a package |
-| `zpr installed` | List locally installed packages |
-| `run <name>` | Execute an installed package |
-
----
-
-## How Packages Work
-
-A ZYXos package is a `.zyx` file — a plain text script where each line is a valid ZYXos shell command:
-
-```bash
-# hello.zyx
-echo Hello from ZPR!
-blink 3 200
-calc 2 + 2
-echo Done.
-```
-
-When you run `zpr install hello`, ZYXos:
-1. Downloads `hello.zyx` from this repository via HTTP
-2. Saves it to the internal filesystem
-3. Makes it available via `run hello`
-
-No reflashing required. New packages become available immediately after `zpr update`.
-
----
 
 ## Repository Structure
 
 ```
 zpr/
-├── index.json          # Package index (fetched by zpr update)
+├── index.json          # package index
 └── packages/
-    ├── hello.zyx       # Hello World
-    ├── snake.zyx       # Snake game
-    ├── sysinfo.zyx     # Extended system info
-    └── ...
-```
-
-### index.json format
-
-```json
-{
-  "repo": "ZPR",
-  "version": "1.0",
-  "updated": "2026-05-31",
-  "packages": [
-    {
-      "name": "hello",
-      "description": "Hello World example",
-      "version": "1.0",
-      "author": "tymek",
-      "file": "packages/hello.zyx"
-    }
-  ]
-}
+    ├── hello.zyx
+    ├── sysreport.zyx
+    ├── blink_demo.zyx
+    ├── netcheck.zyx
+    └── morse_demo.zyx
 ```
 
 ---
 
 ## Writing a Package
 
-Packages are `.zyx` scripts using standard ZYXos shell commands.
-
-### Available commands in scripts
-
-**Output:**
-```
-echo <text>         print text
-banner <text>       large text banner
-morse <text>        convert to Morse code
-```
-
-**Files:**
-```
-cat <file>          read file
-nano <file>         edit file
-touch <file>        create file
-rm <file>           delete file
-```
-
-**Hardware:**
-```
-blink <n> <ms>      blink onboard LED
-led on/off/blink    control LED
-gpio set <pin> <0/1> set GPIO pin
-adc                 read ADC channels
-pwm <pin> <f> <d>   PWM output
-```
-
-**Network:**
-```
-ping <host>         ping a host
-wget <url>          fetch URL
-dns <host>          resolve DNS
-```
-
-**Tools:**
-```
-calc <a> <op> <b>   calculator
-timer <sec>         countdown timer
-sha256 <text>       SHA-256 hash
-base64 <text>       Base64 encode
-hex <text>          hex dump
-```
-
-**System:**
-```
-fetch               system info
-temp                CPU temperature
-meminfo             memory usage
-uptime              system uptime
-sleep <ms>          wait milliseconds
-```
-
-### Example package
+A `.zyx` file is a plain text script with one ZYXos command per line:
 
 ```bash
-# sysinfo.zyx — Extended system info script
-echo === ZYXos System Report ===
-fetch
-echo --- Memory ---
-meminfo
-echo --- Temperature ---
-temp
-echo --- Uptime ---
+# my_package.zyx
+banner HELLO
+echo Welcome from my package!
 uptime
-echo === End of Report ===
+blink 3 200
+echo Done!
+```
+
+Supported commands in scripts: all ZYXos shell commands plus:
+- `set <var> <value>` — set variable
+- `get <var>` — print variable value
+- `input <var> <prompt>` — read user input
+- `if <a> <op> <b>` / `endif` — condition (op: eq ne gt lt ge le)
+- `while <a> <op> <b>` / `endwhile` — loop
+- `sleep <ms>` — delay in milliseconds
+- `print <text>` — print without newline issues
+- `# comment` — comments
+
+### Example with variables
+
+```bash
+# counter.zyx
+banner COUNTER
+set i 0
+while $i lt 5
+  echo Count: $i
+  set i ...
+  sleep 500
+endwhile
+echo Done!
 ```
 
 ---
 
 ## Contributing a Package
 
-1. **Fork** this repository
-2. Create your `.zyx` script in the `packages/` directory
-3. Add an entry to `index.json`:
+1. Fork this repository
+2. Create your `.zyx` file in `packages/`
+3. Add an entry to `index.json`
+4. Open a Pull Request
+
+### index.json format
+
 ```json
 {
-  "name": "yourpackage",
-  "description": "What it does",
+  "name": "my_package",
+  "description": "Short description",
   "version": "1.0",
-  "author": "your-github-username",
-  "file": "packages/yourpackage.zyx"
+  "author": "your-username",
+  "file": "my_package.zyx"
 }
 ```
-4. Open a **Pull Request** with a short description
-
-### Package guidelines
-
-- Keep scripts simple and focused on one task
-- Use `echo` to show progress and feedback to the user
-- Test your script manually in ZYXos shell before submitting
-- Package names must be lowercase, no spaces, no special characters
-- Include a comment at the top of your script explaining what it does
-
----
-
-## License
-
-MIT License — free to use, modify and distribute.
 
 ---
 
 ## Links
 
-- [ZYXos Firmware](https://github.com/Tymek-pl/ZYXos)
+- [ZYXos](https://github.com/Tymek-pl/ZYXos)
+- [Report an issue](https://github.com/Tymek-pl/zpr/issues)
+
+---
+
+## License
+
+MIT
